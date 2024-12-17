@@ -1,26 +1,54 @@
-# README
+# Presentation Evaluation Application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
 
-Things you may want to cover:
+The **Presentation Evaluation Application** is a web application designed for managing audience feedback on presentations. It supports two main roles:
 
-- Ruby version
+- **Instructor**: Can assign grades to presentations and view all feedback.
+- **Student**: Can view the feedback for their own presentation and see their own grades.
 
-- System dependencies
+This app provides a user-friendly process of collecting and organizing audience evaluations to aid in grading and providing constructive criticism to students.
 
-- Configuration
+## Features
 
-- Database creation
+- **Instructor Role**:
+  - Create and manage presentation events.
+  - Assign grades to presentations.
+  - Delete any feedback or presentations.
+  - View all feedback submitted by audience members.
 
-- Database initialization
+- **Student Role**:
+  - View feedback for their own presentation.
+  - View their own grade.
+  - Delete their own feedback and presentations. 
 
-- How to run the test suite
+## Database Schema
 
-- Services (job queues, cache servers, search engines, etc.)
+The app uses the following schemas:
 
-- Deployment instructions
+- **Feedback**: Stores audience feedback.
+- **Presentation**: Contains details about each presentation.
+- **Users**: Stores user data (instructors and students).
+- **Grades**: Stores grades assigned by instructors.
 
-- ...
+## Dependencies
 
-Should create new presentation with group number and time, go to "http://127.0.0.1:3000/presentations"
+The application uses the following gems (see `Gemfile`):
+
+- **rails**: Web framework.
+- **sqlite3**: Database adapter.
+- **puma**: Web server.
+- **importmap-rails**: For JavaScript handling.
+- **turbo-rails**: SPA-like page accelerator.
+- **stimulus-rails**: Modest JavaScript framework.
+- **bootstrap**: Frontend styling framework.
+- **bcrypt**: User authentication via password hashing.
+- **sassc-rails**: For SCSS styling.
+
+To install dependencies, run:
+
+```bash
+bundle install
+```
+
+Run on local host.
