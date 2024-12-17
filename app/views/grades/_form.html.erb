@@ -1,0 +1,62 @@
+<%= form_with(model: grade) do |form| %>
+  <% if grade.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading"><%= pluralize(grade.errors.count, "error") %> prohibited this grade from being saved:</h4>
+      <ul class="mb-0">
+        <% grade.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if current_page?(new_grade_path) %>
+    <div class="mb-3">
+      <%= form.label :presentation_id, class: "form-label" %>
+      <%= form.select :presentation_id, 
+          @presentations.reject { |p| Grade.exists?(presentation_id: p.id) }
+                        .collect { |p| 
+                          emails = [p.email1, p.email2, p.email3, p.email4, p.email5].select(&:present?)
+                          presenters = []
+                          emails.each do |email|
+                            presenters << p.full_name(email)
+                          end
+                          display_text = "#{p.topic} - #{presenters.join(', ')}"
+                          [display_text, p.id]
+                        }, 
+          { prompt: "Select a presentation" }, 
+          { id: "presentation_select", required: true, class: "form-select" } %>
+    </div>
+  <% else %>
+    <div class="field">
+      <div class="alert alert-secondary" role="alert">
+        <p><strong>Presenters: </strong></p>
+        <p>
+          <% [@grade.presentation.email1, @grade.presentation.email2, @grade.presentation.email3, @grade.presentation.email4, @grade.presentation.email5].each do |email| %>
+            <% if email.present? %>
+              <%= (@grade.presentation.full_name(email) + "<br>").html_safe %>
+            <% end %>
+          <% end %>
+        </p>
+        <p><strong>Topic:</strong> <%= @grade.presentation.topic %></p>
+      </div>
+    </div>
+  <% end %>
+    
+  <div class="mb-3">
+    <%= form.label :comments, class: "form-label" %>
+    <%= form.text_area :comments, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :grade_value, "Grade (0-100)", class: "form-label" %>
+    <%= form.number_field :grade_value, min: 0, max:100, step: 1, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <span>
+      <%= form.submit class: "btn btn-primary"%>
+      <%= link_to "Cancel", grades_path, class: "btn btn-primary" %>
+    </span>
+  </div>
+<% end %>

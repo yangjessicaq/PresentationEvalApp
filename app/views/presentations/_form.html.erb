@@ -1,0 +1,65 @@
+<%= form_with(model: presentation, class: "form") do |form| %>
+  <% if presentation.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading"><%= pluralize(presentation.errors.count, "error") %> prohibited this presentation from being saved:</h4>
+      <ul class="mb-0">
+        <% presentation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :email1, "Presenter 1's Email", class: "form-label" %>
+    <span class="text-danger">*</span>
+    <%= form.text_field :email1, class: "form-control", required: true %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :email2, "Presenter 2's Email", class: "form-label" %>
+    <%= form.text_field :email2, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :email3, "Presenter 3's Email", class: "form-label" %>
+    <%= form.text_field :email3, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :email4, "Presenter 4's Email", class: "form-label" %>
+    <%= form.text_field :email4, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :email5, "Presenter 5's Email", class: "form-label" %>
+    <%= form.text_field :email5, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :topic, "Topic", class: "form-label" %>
+    <span class="text-danger">*</span>
+    <%= form.text_field :topic, class: "form-control", required: true %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :present_date, "Date", class: "form-label" %>
+    <span class="text-danger">*</span>
+    <%= form.date_field :present_date, class: "form-control", required: true %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :present_start_time, "Start Time", class: "form-label" %>
+    <span class="text-danger">*</span>
+    <%= form.time_field :present_start_time, class: "form-control", required: true %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :present_end_time, "End Time", class: "form-label" %>
+    <span class="text-danger">*</span>
+    <%= form.time_field :present_end_time, class: "form-control", required: true %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :location, "Location", class: "form-label" %>
+    <span class="text-danger">*</span>
+    <%= form.text_field :location, class: "form-control", required: true %>
+  </div>
+  <div class="mb-3">
+    <span>
+      <%= form.submit class: "btn btn-primary" %>
+      <%= link_to "Cancel", presentations_path, class: "btn btn-primary" %>
+    </span>
+  </div>
+<% end %>

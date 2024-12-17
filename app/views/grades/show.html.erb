@@ -1,0 +1,20 @@
+<% if notice.present? %>
+  <p style="color: green"><%= notice %></p>
+<% end %>
+
+<h1 class="mt-0">Grade Details</h1>
+
+<p><strong>Grader Name:</strong> <%= @grade.grader_name %></p>
+<p><strong>Presenters: </strong></p>
+<p>
+  <% [@grade.presentation.email1, @grade.presentation.email2, @grade.presentation.email3, @grade.presentation.email4, @grade.presentation.email5].each do |email| %>
+    <% if email.present? %>
+      <%= (@grade.presentation.full_name(email) + "<br>").html_safe %>
+    <% end %>
+  <% end %>
+</p>
+<p><strong>Topic:</strong> <%= @grade.presentation.topic %></p>
+<p><strong>Comments:</strong> <%= @grade.comments %></p>
+<p><strong>Grade:</strong> <%= @grade.grade_value %></p>
+
+<%= link_to 'Back to Grades', grades_path, class: "btn btn-primary" %>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Project6" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>    
+  </head>
+
+  <body class="d-flex">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Sidebar -->
+    <% if logged_in? %>
+      <main class="d-flex flex-nowrap" style="height: 100vh;">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+          <a href="<%= user_path(current_user) %>" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi pe-none me-2 bi-person-circle" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+            </svg>
+
+            <div class="d-flex flex-column">
+              <span class="fs-5"><%= current_user.full_name %></span>
+              <span class="text-white" style="font-size: 0.7rem;"><%= current_user.role.capitalize %></span>
+            </div>
+          </a>
+
+          <hr>
+
+          <ul class="nav nav-pills flex-column mb-auto">
+            <%= link_to presentations_path, class: "nav-link #{current_page?(presentations_path) ? 'active' : 'text-white'} d-flex align-items-center" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi pe-none me-2 bi-file-earmark-ppt-fill" viewBox="0 0 16 16">
+                <path d="M8.188 10H7V6.5h1.188a1.75 1.75 0 1 1 0 3.5"/>
+                <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM7 5.5a1 1 0 0 0-1 1V13a.5.5 0 0 0 1 0v-2h1.188a2.75 2.75 0 0 0 0-5.5z"/>
+              </svg>
+              Presentations
+            <% end %>
+
+            <% if current_user.instructor? %>
+              <%= link_to new_presentation_path, class: "nav-link #{current_page?(new_presentation_path) ? 'active' : 'text-white'} d-flex align-items-center" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi pe-none me-2 bi-file-plus-fill" viewBox="0 0 16 16">
+                  <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0"/>
+                </svg>
+                New
+              <% end %>       
+            <% end %>
+
+            <%= link_to grades_path, class: "nav-link #{current_page?(grades_path) ? 'active' : 'text-white'} text-white d-flex align-items-center" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi pe-none me-2 bi-check-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+              Grades
+            <% end %>
+          </ul>
+        </div>
+      </main>
+    <% end %>
+
+    <!-- Page Content -->
+    <div class="flex-grow-1 p-4">
+      <%= yield %>
+    </div>
+  </body>
+</html>

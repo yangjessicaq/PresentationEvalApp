@@ -1,0 +1,110 @@
+<% if notice.present? %>
+  <p style="color: green"><%= notice %></p>
+<% end %>
+
+<% content_for :title, "Feedback" %>
+
+<%# <h1>Feedback</h1> %>
+<% if current_user.instructor? %>
+  <div id="feedback">
+    <h1 class="mt-0">Feedback on <%= @presentations.topic %></h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Commentor Name</th>
+          <th scope="col">Comments</th>
+          <th scope="col">Grade</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% if @feedbacks.any? %>
+          <% @feedbacks.each do |feedback| %>
+            <%= render feedback %>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="7" class="text-center text-muted">No Feedback</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= link_to "Back to Presentations", presentations_path, class: "btn btn-primary" %>
+
+<%else%>
+  <% user_emails = [@presentations.email1, @presentations.email2, @presentations.email3, @presentations.email4, @presentations.email5].compact %>
+  <% grade_found = false %>
+  <% user_emails.each do |email| %>
+    <% if current_user.email == email %>
+      <% grade_found = true %>
+      <%# current user can only see the feedback and scores, not able to create new feedback %>
+      <div id="feedback">
+        <h1 class="mt-0">Feedback for Your Presentation on <%= @presentations.topic %></h1>
+          <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Commentor First Name</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Grades</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% if @feedbacks.any? %>
+              <% @feedbacks.each do |feedback| %>
+                <%= render feedback %>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="7" class="text-center text-muted">No Feedback</td> 
+              </tr>
+            <% end %>
+          </tbody>
+        </table>    
+      </div>
+      <%= link_to "Back to Presentations", presentations_path, class: "btn btn-primary" %>
+    <% end %> 
+  <% end %>
+
+  <% if !grade_found %>
+    <%# only able to see the feedback made by the user, edit the feedback %>
+    <div id="feedbacks">   
+      <h1 class="mt-0">Your Feedback on <%= @presentations.topic %></h1>
+      <% @feedback = Feedback.where(commentor_id: current_user.id, presentation_id:@presentations.id)%>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Commentor First Name</th>
+            <th scope="col">Comments</th>
+            <th scope="col">Grades</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @feedback.any? %>
+            <% @feedback.each do |feedback| %>
+              <%= render feedback %>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="7" class="text-center text-muted">No Feedback</td> 
+            </tr>
+          <% end %>
+        </tbody>
+      </table>  
+      <% unless @feedback.any? %>
+        <span>
+          <%= link_to "/feedbacks/new?presentation_id=#{@presentations.id}", class: "btn btn-primary" do %>
+            Add Feedback
+          <% end %> 
+          <%= link_to "Back to Presentations", presentations_path, class: "btn btn-primary" %>
+        </span>
+      <% else %>
+        <%= link_to "Back to Presentations", presentations_path, class: "btn btn-primary" %>
+      <% end %> 
+    </div>
+  <% end %>
+<%end%>

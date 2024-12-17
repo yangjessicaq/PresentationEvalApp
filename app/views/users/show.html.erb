@@ -1,0 +1,15 @@
+<% content_for :title, "Your Account" %>
+
+<h1 class="mt-0">Your Account</h1>
+
+<br>
+
+<p><strong>Name: </strong><%= @user.full_name %></p>
+<p><strong>Email: </strong> <%= @user.email %></p>
+<p><strong>Role: </strong> <%= @user.role %></p>
+
+<br>
+
+<%= form_with(url: session_path, method: :delete, class: 'd-inline') do %>
+  <%= submit_tag "Log Out", class: 'btn btn-primary' %>
+<% end %>

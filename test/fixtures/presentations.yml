@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group_name: "Group 1"
+  topic: "Final Project"
+  present_date: 2024-11-22
+  present_start_time: 12:00:00
+  present_end_time: 12:30:00
+  location: "On Zoom"

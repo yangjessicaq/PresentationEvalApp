@@ -1,0 +1,22 @@
+<% if notice.present? %>
+  <p style="color: green"><%= notice %></p>
+<% end %>
+
+<h1 class="mt-0">Presentation Details</h1>
+
+<p><strong>Presenters: </strong></p>
+<p>
+  <% [@presentation.email1, @presentation.email2, @presentation.email3, @presentation.email4, @presentation.email5].each do |email| %>
+    <% if email.present? %>
+      <%= (@presentation.full_name(email) + "<br>").html_safe %>
+    <% end %>
+  <% end %>
+</p>
+
+<p><strong>Topic: </strong><%= @presentation.topic %></p>
+<p><strong>Date: </strong><%= @presentation.formatted_date %></p>
+<p><strong>Start Time: </strong><%= @presentation.formatted_start_time %></p>
+<p><strong>End Time: </strong><%= @presentation.formatted_end_time %></p>
+<p><strong>Location: </strong><%= @presentation.location %></p>
+
+<%= link_to "Back to Presentations", presentations_path, class: "btn btn-primary" %>

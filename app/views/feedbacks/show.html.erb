@@ -1,0 +1,13 @@
+<% if notice.present? %>
+  <p style="color: green"><%= notice %></p>
+<% end %>
+
+<% @user = User.find_by(id: @feedback.commentor_id)%>
+
+<h1 class="mt-0">Feedback Details</h1>
+
+<p><strong>Commentor Name: </strong><%= @user.full_name %></p>
+<p><strong>Comment: </strong><%= @feedback.comments %></p>
+<p><strong>Grade: </strong><%= @feedback.grades %></p>
+
+<%= link_to "Back to Feedback", "/feedbacks?presentation_id=#{@presentations.id}", class: "btn btn-primary" %>

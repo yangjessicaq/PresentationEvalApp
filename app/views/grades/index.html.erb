@@ -1,0 +1,65 @@
+<% if notice.present? %>
+  <p style="color: green"><%= notice %></p>
+<% end %>
+<h1>Grades</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Grader Name</th>
+      <th scope="col">Presenters</th>
+      <th scope="col">Topic</th>
+      <th scope="col">Comments</th>
+      <th scope="col">Grade (0-100)</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+
+  <% if current_user.instructor? %>
+    <tbody>
+      <% if @grades.any? %>
+        <% @grades.each do |grade| %>
+          <%= render grade %>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="6" class="text-center text-muted">No Grades</td> 
+        </tr>
+      <% end %>
+    </tbody>
+  <% else %>
+    <tbody>
+      <% if @grades.any? %>
+        <% grades_found = false %>
+        <% @grades.each do |grade| %>
+          <% user_emails = [grade.presentation.email1, grade.presentation.email2, grade.presentation.email3, grade.presentation.email4, grade.presentation.email5].compact %>
+
+          <% user_emails.each do |email| %>
+            <% if current_user.email == email %>
+              <%= render grade %>
+              <% grades_found = true %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% unless grades_found %>
+          <tr>
+            <td colspan="6" class="text-center text-muted">No Grades</td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="6" class="text-center text-muted">No Grades</td> 
+        </tr>
+      <% end %>
+    </tbody>
+  <% end %>
+</table>
+
+<% if current_user.instructor? %>
+  <%= link_to new_grade_path, class: "btn btn-primary" do %>
+    New Grade
+  <% end %> 
+<% end %>
+
+
+

@@ -1,0 +1,41 @@
+<%= form_with(model: feedback) do |form| %>
+  <% if feedback.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading"><%= pluralize(feedback.errors.count, "error") %> prohibited this feedback from being saved:</h2>
+      <ul class="mb-0">
+        <% feedback.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.hidden_field :presentation_id, value: @presentations.id %>
+    <%# <%= form.label :presentation_id, class: "form-label" %> 
+    <%# <%= form.number_field :presentation_id, class: "form-control" %> 
+  </div>
+
+  <div class="mb-3">
+    <%= form.hidden_field :commentor_id, value: current_user.id%>
+    <%# <%= form.label :commentor_id, class: "form-label" %>
+    <%# <%= form.number_field :commentor_id, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :comments, class: "form-label" %>
+    <%= form.text_area :comments, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :grades, "Grade (0-100)", class: "form-label" %>
+    <%= form.number_field :grades, min: 0, max:100, step: 1, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <span>
+      <%= form.submit class: "btn btn-primary"%>
+      <%= link_to "Cancel", "/feedbacks?presentation_id=#{@presentations.id}", class: "btn btn-primary" %>
+    </span>
+  </div>
+<% end %>
